@@ -31,10 +31,12 @@ public class SimpleClock extends JFrame implements ActionListener{
             toggleFormat = new JButton();
             toggleFormat.setBounds(200, 100, 100, 50);
             toggleFormat.addActionListener(this);
+            toggleFormat.setText("Toggle Format");
 
             toggleTimezone = new JButton();
             toggleTimezone.setBounds(200, 200, 100, 50);
             toggleTimezone.addActionListener(this);
+            toggleTimezone.setText("Toggle Timezone");
 
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setTitle("Digital Clock");
@@ -88,15 +90,12 @@ public class SimpleClock extends JFrame implements ActionListener{
 
 
         public void toggleFormat(boolean buttonPress) {
-            if (buttonPress == true) {
+            if (buttonPress) {
                 timeFormat = new SimpleDateFormat("hh:mm:ss a");
             } else {
                 timeFormat = new SimpleDateFormat("HH:mm:ss a");
             }
         }
-
-
-        //Thread.start();
 
         public static void main(String[] args) {
             new SimpleClock();
@@ -104,8 +103,10 @@ public class SimpleClock extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==toggleFormat) {
-
+        if(e.getSource() == toggleFormat) {
+            //Change format
+        } else if (e.getSource() == toggleTimezone) {
+            //Change timezone
         }
     }
 }
