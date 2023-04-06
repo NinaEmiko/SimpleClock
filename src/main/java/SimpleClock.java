@@ -9,24 +9,19 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 
-public class SimpleClock extends JFrame implements ActionListener{
-    
-        Calendar calendar = Calendar.getInstance();
+public class SimpleClock extends JFrame{
         TimeZone gmt = TimeZone.getTimeZone("GMT");
         TimeZone est = TimeZone.getTimeZone("EST");
         SimpleDateFormat timeFormat;
         SimpleDateFormat dayFormat;
         SimpleDateFormat dateFormat;
-    
         JLabel timeLabel;
         JLabel dayLabel;
         JLabel dateLabel;
         String time;
         String day;
         String date;
-
         boolean firstClock = false;
-
         JButton toggleFormat;
         JButton toggleTimezone;
         boolean isMilitary = false;
@@ -77,10 +72,10 @@ public class SimpleClock extends JFrame implements ActionListener{
 
     private void changeTimesZone(ActionEvent actionEvent) {
         if (isGMT) {
-            timeFormat.setTimeZone(gmt);
+            timeFormat = new SimpleDateFormat("hh:mm:ss a");
             isGMT = false;
         } else {
-            timeFormat.setTimeZone(est);
+            timeFormat.setTimeZone(gmt);
             isGMT = true;
         }
     }
@@ -114,24 +109,17 @@ public class SimpleClock extends JFrame implements ActionListener{
             }
         }
 
-        Thread firstThread = new Thread();
-            public void run() {
-                while(!firstClock) {
-
-                }
-            }
-
         public static void main(String[] args) {
             new SimpleClock();
         }
 
-    @Override
+   /* @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == toggleFormat) {
             //Change format
         } else if (e.getSource() == toggleTimezone) {
             //Change timezone
         }
-    }
+    }*/
 
 }
