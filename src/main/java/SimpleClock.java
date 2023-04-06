@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 
-public class SimpleClock extends JFrame{
+public class SimpleClock extends JFrame implements Runnable{
         TimeZone gmt = TimeZone.getTimeZone("GMT");
         TimeZone est = TimeZone.getTimeZone("EST");
         SimpleDateFormat timeFormat;
@@ -91,35 +91,49 @@ public class SimpleClock extends JFrame{
     }
 
     public void setTimer() {
-            while (true) {
-                time = timeFormat.format(Calendar.getInstance().getTime());
-                timeLabel.setText(time);
-    
-                day = dayFormat.format(Calendar.getInstance().getTime());
-                dayLabel.setText(day);
-    
-                date = dateFormat.format(Calendar.getInstance().getTime());
-                dateLabel.setText(date);
-    
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {
-                    e.getStackTrace();
-                }
-            }
+//            while (true) {
+//                time = timeFormat.format(Calendar.getInstance().getTime());
+//                timeLabel.setText(time);
+//
+//                day = dayFormat.format(Calendar.getInstance().getTime());
+//                dayLabel.setText(day);
+//
+//                date = dateFormat.format(Calendar.getInstance().getTime());
+//                dateLabel.setText(date);
+//
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (Exception e) {
+//                    e.getStackTrace();
+//                }
+//            }
         }
 
         public static void main(String[] args) {
             new SimpleClock();
+            SimpleClock clockie = new SimpleClock();
+            Thread thread = new Thread(clockie);
+            thread.start();
         }
 
-   /* @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == toggleFormat) {
-            //Change format
-        } else if (e.getSource() == toggleTimezone) {
-            //Change timezone
+    @Override
+        public void run() {
+        while (true) {
+            time = timeFormat.format(Calendar.getInstance().getTime());
+            timeLabel.setText(time);
+
+            day = dayFormat.format(Calendar.getInstance().getTime());
+            dayLabel.setText(day);
+
+            date = dateFormat.format(Calendar.getInstance().getTime());
+            dateLabel.setText(date);
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
         }
-    }*/
+    }
 
 }
