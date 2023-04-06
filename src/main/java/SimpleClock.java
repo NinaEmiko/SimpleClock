@@ -6,12 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+import java.util.TimeZone;
 
 
 public class SimpleClock extends JFrame implements ActionListener{
     
-        Calendar calendar;
+        Calendar calendar = Calendar.getInstance();
+        TimeZone gmt = TimeZone.getTimeZone("GMT");
+        TimeZone est = TimeZone.getTimeZone("EST");
         SimpleDateFormat timeFormat;
         SimpleDateFormat dayFormat;
         SimpleDateFormat dateFormat;
@@ -23,19 +25,23 @@ public class SimpleClock extends JFrame implements ActionListener{
         String day;
         String date;
 
+        boolean firstClock = false;
+
         JButton toggleFormat;
         JButton toggleTimezone;
+        boolean isMilitary = false;
+        boolean isGMT = false;
 
         SimpleClock() {
 
             toggleFormat = new JButton();
             toggleFormat.setBounds(200, 100, 100, 50);
-            toggleFormat.addActionListener(this);
+            toggleFormat.addActionListener(this::militaryStandard);
             toggleFormat.setText("Toggle Format");
 
             toggleTimezone = new JButton();
             toggleTimezone.setBounds(200, 200, 100, 50);
-            toggleTimezone.addActionListener(this);
+            toggleTimezone.addActionListener(this::changeTimesZone);
             toggleTimezone.setText("Toggle Timezone");
 
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,8 +49,6 @@ public class SimpleClock extends JFrame implements ActionListener{
             this.setLayout(new FlowLayout());
             this.setSize(350, 220);
             this.setResizable(false);
-            this.add(toggleFormat);
-            this.add(toggleTimezone);
     
             timeFormat = new SimpleDateFormat("hh:mm:ss a");
             dayFormat=new SimpleDateFormat("EEEE");
@@ -65,11 +69,33 @@ public class SimpleClock extends JFrame implements ActionListener{
             this.add(dayLabel);
             this.add(dateLabel);
             this.setVisible(true);
+            this.add(toggleFormat);
+            this.add(toggleTimezone);
     
             setTimer();
         }
-    
-        public void setTimer() {
+
+    private void changeTimesZone(ActionEvent actionEvent) {
+        if (isGMT) {
+            timeFormat.setTimeZone(gmt);
+            isGMT = false;
+        } else {
+            timeFormat.setTimeZone(est);
+            isGMT = true;
+        }
+    }
+
+    private void militaryStandard(ActionEvent actionEvent) {
+            if (isMilitary) {
+                timeFormat = new SimpleDateFormat("HH:mm:ss a");
+                isMilitary = false;
+            } else {
+                timeFormat = new SimpleDateFormat("hh:mm:ss a");
+                isMilitary = true;
+            }
+    }
+
+    public void setTimer() {
             while (true) {
                 time = timeFormat.format(Calendar.getInstance().getTime());
                 timeLabel.setText(time);
@@ -88,14 +114,12 @@ public class SimpleClock extends JFrame implements ActionListener{
             }
         }
 
+        Thread firstThread = new Thread();
+            public void run() {
+                while(!firstClock) {
 
-        public void toggleFormat(boolean buttonPress) {
-            if (buttonPress) {
-                timeFormat = new SimpleDateFormat("hh:mm:ss a");
-            } else {
-                timeFormat = new SimpleDateFormat("HH:mm:ss a");
+                }
             }
-        }
 
         public static void main(String[] args) {
             new SimpleClock();
@@ -109,4 +133,5 @@ public class SimpleClock extends JFrame implements ActionListener{
             //Change timezone
         }
     }
+
 }
